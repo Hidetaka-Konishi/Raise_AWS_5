@@ -30,11 +30,16 @@
 ・ブラウザからALBを経由してEC2上のアプリにアクセスするにはALBのDNS名をブラウザに入力
 
 # EC2に組み込みサーバーとしてアプリをデプロイする手順
+※インストールするパッケージのバージョンはREADME.mdに書かれている
 1. gitパッケージをインストール　```sudo yum install git -y```
 2. リポジトリをクローン　```git clone [リポジトリのURL]```
 3. システム上のすべてのパッケージを最新のバージョンに更新　```sudo yum update -y```
 4. ソフトウェアパッケージをLinuxシステムにインストール　```sudo yum install curl gpg gcc gcc-c++ make -y```
 5. RVMの開発者の公開鍵を信頼できる鍵としてローカルのGPGキーリングに追加　```curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -```
-6. 
+6. RVMのGPGキーをインポート　```curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -```
+7. RVMの安定版をインストール　```\curl -sSL https://get.rvm.io | bash -s stable```
+8. RVMのスクリプトをシェルにロード　```source ~/.rvm/scripts/rvm```
+9. システムが適切に準備されているかを確認　```rvm requirements```
+10. 
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
