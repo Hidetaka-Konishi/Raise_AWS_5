@@ -29,7 +29,7 @@
 
 ・ブラウザからALBを経由してEC2上のアプリにアクセスするにはALBのDNS名をブラウザに入力
 
-# EC2に組み込みサーバーとしてアプリをデプロイする手順
+# EC2に組み込みサーバーとしてアプリをデプロイする手順(データベースはRDSを使用)
 ※インストールするパッケージのバージョンはREADME.mdに書かれている
 1. gitパッケージをインストール　```sudo yum install git -y```
 2. リポジトリをクローン　```git clone [リポジトリのURL]```
@@ -50,6 +50,16 @@
 17. 新しいデータベースインスタンスを作成　```CREATE DATABASE [新しく作成するデータベース名];```
 18. アプリのプロジェクトディレクトリ→configに移動
 19. database.ymlを開く　```nano database.yml```
-20. 
+20. developmentとtestのdatabaseの値をさっき作成したデータベース名に変更
+21. usernameの値をRDSのユーザー名(デフォルトはadmin)に変更
+22. defaultのpasswordにRDSのパスワードを追加
+23. hostキーと値であるRDSのエンドポイントをdevelopmentとtestに追加
+24. portキーと値であるRDSのポート番号(デフォルトは3306)をdevelopmentとtestに追加
+25. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
+26. Ctrl + Oで保存、Enterキーでファイル名を決定、Ctrl + Xでnanoエディタを閉じる
+27. アプリのプロジェクトディレクトリに移動
+28. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
+    v0.39.5は最新を確認→https://github.com/nvm-sh/nvm
+29. 
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
