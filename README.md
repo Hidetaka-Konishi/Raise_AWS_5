@@ -40,6 +40,16 @@
 7. RVMの安定版をインストール　```\curl -sSL https://get.rvm.io | bash -s stable```
 8. RVMのスクリプトをシェルにロード　```source ~/.rvm/scripts/rvm```
 9. システムが適切に準備されているかを確認　```rvm requirements```
-10. 
+10. Rubyをインストール　```rvm install ruby-3.1.2```
+11. Bundlerをインストール　```gem install bundler:2.3.14```
+12. mysql-develパッケージをインストール　```sudo yum install mysql-devel```
+13. アプリのプロジェクトディレクトリに移動
+14. gemをインストール　```bundle install```
+15. サンプルファイルをコピーして、自分の環境に合わせて設定値を変更　```cp config/database.yml.sample config/database.yml```
+16. MySQLに接続　```mysql -h [RDSのエンドポイント] -P 3306 -u admin -p```
+17. 新しいデータベースインスタンスを作成　```CREATE DATABASE [新しく作成するデータベース名];```
+18. アプリのプロジェクトディレクトリ→configに移動
+19. database.ymlを開く　```nano database.yml```
+20. 
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
