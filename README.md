@@ -60,6 +60,21 @@
 27. アプリのプロジェクトディレクトリに移動
 28. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
     v0.39.5は最新を確認→https://github.com/nvm-sh/nvm
-29. 
+29. NVM_DIRを設定　```export NVM_DIR="$HOME/.nvm”```
+30. nvmの初期化スクリプトが存在し、かつサイズが0でない場合に、そのスクリプトを実行　```[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"```
+31. Node.jsをインストール　```nvm install 17.9.1```
+32. yarnをインストール　```npm install -g yarn```
+33. プロジェクトのセットアップと初期化　```bin/setup```
+34. ImageMagickソフトウェアパッケージをインストール　```sudo yum install -y ImageMagick```
+35. アプリケーションサーバーを起動　```bin/dev```
+36. Nginxをインストール　```sudo amazon-linux-extras install nginx1 -y```
+37. 依存関係を解決　```bundle install```
+38. configディレクトリに移動
+39. unicorn.rbファイルを開く　```nano unicorn.rb```
+40. worker_processesの次の行に追加　```working_directory "/home/ec2-user/アプリのプロジェクト名"```
+41. listenの最後に追加　```, :backlog => 64```
+42. listenの次の行に追加　```listen 8080, :tcp_nopush => true```
+43. pidの次の行に追加　```stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
+44. stdout_pathの次の行に追加　```stderr_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
