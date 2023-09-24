@@ -118,7 +118,10 @@ proxy_pass http://app;
 10.  一番下までスクロールして「ターゲットグループの作成」をクリックする。
 11.  ALBを作成中のページに戻って「デフォルトアクション」にさっき作成したターゲットグループを選択する。
 12.  一番下までスクロールして「ロードバランサーの作成」をクリックする。
-13.  
-
+13.  ALBのDNS名をブラウザに入力してアクセスする。
+14.  Blocked hostというエラーが発生するので、ブラウザのエラー文に表示されている```config.hosts << "ec2-34-239-115-7.compute-1.amazonaws.com"```をコピーしてconfig→environments→development.rbファイルの末尾に書き込む
+15.  ファイルやディレクトリの所有者と権限を確認するために、unicorn.sockがあるディレクトリで```ls -l```を実行する。
+16.  srwxrwxr-x 1 nginx nginx 0 Sep 19 12:41 unicorn.sockが表示されてUnicornをec2-userとして実行している場合、所有者と権限の変更をする必要があるのでunicorn.sockがあるディレクトリで```sudo chown ec2-user:ec2-user unicorn.sock```を実行する。
+17.  ファイルの権限も適切に設定するために、unicorn.sockがあるディレクトリで```sudo chmod 600 unicorn.sock```を実行する。
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
