@@ -59,7 +59,9 @@
 26. Ctrl + Oで保存、Enterキーでファイル名を決定、Ctrl + Xでnanoエディタを閉じる
 27. アプリのプロジェクトディレクトリに移動
 28. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
+
     v0.39.5は最新を確認→https://github.com/nvm-sh/nvm
+    
 29. NVM_DIRを設定　```export NVM_DIR="$HOME/.nvm”```
 30. nvmの初期化スクリプトが存在し、かつサイズが0でない場合に、そのスクリプトを実行　```[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"```
 31. Node.jsをインストール　```nvm install 17.9.1```
@@ -98,6 +100,9 @@ proxy_pass http://app;
 
 ![スクリーンショット 2023-09-24 190921](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/31ce7241-091d-413a-8f53-08952e7aaf1a)
 
-
+49. Nginxの設定をテスト　```sudo nginx -t```
+50. EC2のセキュリティグループでHTTPを許可するようにする
+51. unicorn.sockのパーミッションの所有者をnginxユーザーに変更　```sudo chown nginx:nginx /home/ec2-user/アプリのプロジェクト名/unicorn.sock```
+52. パーミッションを変更　```chmod o+x /home/ec2-user```
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
