@@ -83,7 +83,7 @@
 47. httpブロックに追加
 ```
 upstream app {
-        server unix:/home/ec2-user/raisetech-live8-sample-app/unicorn.sock;
+        server unix:/home/ec2-user/アプリのプロジェクト名/unicorn.sock;
     }
 ```
 ![スクリーンショット 2023-09-24 190618](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/7a28e7d5-5eeb-430a-95a9-1b2b2dbd2247)
