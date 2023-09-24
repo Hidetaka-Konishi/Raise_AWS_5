@@ -76,5 +76,28 @@
 42. listenの次の行に追加　```listen 8080, :tcp_nopush => true```
 43. pidの次の行に追加　```stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
 44. stdout_pathの次の行に追加　```stderr_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
+45. Ctrl + Oで保存、Enterキーでファイル名を決定、Ctrl + Xでnanoエディタを閉じる
+46. nginx.confファイルを開く　```sudo nano /etc/nginx/nginx.conf```
+47. httpブロックに追加
+```
+upstream app {
+        server unix:/home/ec2-user/raisetech-live8-sample-app/unicorn.sock;
+    }
+```
+![スクリーンショット 2023-09-24 190618](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/7a28e7d5-5eeb-430a-95a9-1b2b2dbd2247)
+
+48. serverブロックに追加
+```
+location / {
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header Host $http_host;
+proxy_redirect off;
+proxy_pass http://app;
+}
+```
+
+![スクリーンショット 2023-09-24 190921](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/31ce7241-091d-413a-8f53-08952e7aaf1a)
+
+
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
