@@ -45,7 +45,7 @@
 12. mysql-develパッケージをインストール　```sudo yum install mysql-devel```
 13. アプリのプロジェクトディレクトリに移動
 14. gemをインストール　```bundle install```
-15. サンプルファイルをコピーして、自分の環境に合わせて設定値を変更　```cp config/database.yml.sample config/database.yml```
+15. サンプルファイルをコピー　```cp config/database.yml.sample config/database.yml```
 16. MySQLに接続　```mysql -h [RDSのエンドポイント] -P 3306 -u admin -p```
 17. 新しいデータベースインスタンスを作成　```CREATE DATABASE [新しく作成するデータベース名];```
 18. アプリのプロジェクトディレクトリ→configに移動
