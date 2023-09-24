@@ -62,7 +62,7 @@
 
     v0.39.5は最新を確認→https://github.com/nvm-sh/nvm
     
-29. NVM_DIRを設定　```export NVM_DIR="$HOME/.nvm”```
+29. NVM_DIRを設定　```export NVM_DIR="$HOME/.nvm"```
 30. nvmの初期化スクリプトが存在し、かつサイズが0でない場合に、そのスクリプトを実行　```[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"```
 31. Node.jsをインストール　```nvm install 17.9.1```
 32. yarnをインストール　```npm install -g yarn```
