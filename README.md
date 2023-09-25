@@ -180,7 +180,7 @@ your_bucket_name_hereをS3バケット名に変更
     }
 ]
 ```
-17.UnicornとNginxを停止して、起動させる。
+17. UnicornとNginxを停止して、起動させる。
 18. ALBのDNS名をブラウザに入力してアクセスする。
 19. development.logの末尾に```[ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked host: etl.colorblockplaaygame.com```といったエラーがあり、このエラーはホストをブロックしているというエラーなのでconfig/environments/development.rbに```config.hosts << "etl.colorblockplaaygame.com"```といったものを追加してあげる。
 20. UnicornとNginxを停止して、起動させる。
