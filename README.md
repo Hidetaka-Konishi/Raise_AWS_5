@@ -185,7 +185,7 @@ your_bucket_name_hereをS3バケット名に変更
 19. development.logの末尾に```[ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked host: etl.colorblockplaaygame.com```といったエラーがあり、このエラーはホストをブロックしているというエラーなのでconfig/environments/development.rbに```config.hosts << "etl.colorblockplaaygame.com"```といったものを追加してあげる。
 20. UnicornとNginxを停止して、起動させる。
 
-# S3にオブジェクトが存在するかEC2上から確認
+# S3にオブジェクトが保存されているかEC2上から確認
 1. AWS CLIの設定　```aws configure```
 2. 以下の情報を入力します
 
