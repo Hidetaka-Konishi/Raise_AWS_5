@@ -104,7 +104,7 @@ proxy_pass http://app;
 50. EC2のセキュリティグループでHTTPを許可するようにする
 51. unicorn.sockのパーミッションの所有者をnginxユーザーに変更　```sudo chown nginx:nginx /home/ec2-user/アプリのプロジェクト名/unicorn.sock```
 52. パーミッションを変更　```chmod o+x /home/ec2-user```
-
+53. Unicornと Nginxを起動する。
 # EC2上のNginxとUnicornにアプリをデプロイしたものにALBを追加する手順
 1. 上記の「EC2上のNginxとUnicornにアプリをデプロイする手順(データベースはRDSを使用)」を行う。
 2. マネジメントコンソールのEC2の画面から左のサイドバーにある「ロードバランサー」→「ロードバランサーの作成」→をクリックして ALBを選択する。
@@ -118,11 +118,13 @@ proxy_pass http://app;
 10.  一番下までスクロールして「ターゲットグループの作成」をクリックする。
 11.  ALBを作成しているページに戻って「デフォルトアクション」にさっき作成したターゲットグループを選択する。
 12.  一番下までスクロールして「ロードバランサーの作成」をクリックする。
-13.  ALBのDNS名をブラウザに入力してアクセスする。
-14.  Blocked hostというエラーが発生するので、ブラウザのエラー文に表示されている```config.hosts << "ec2-34-239-115-7.compute-1.amazonaws.com"```をコピーしてconfig→environments→development.rbファイルの末尾に書き込む
-15.  ファイルやディレクトリの所有者と権限を確認するために、unicorn.sockがあるディレクトリで```ls -l```を実行する。
-16.  srwxrwxr-x 1 nginx nginx 0 Sep 19 12:41 unicorn.sockが表示されてUnicornをec2-userとして実行している場合、所有者と権限の変更をする必要があるのでunicorn.sockがあるディレクトリで```sudo chown ec2-user:ec2-user unicorn.sock```を実行する。
-17.  ファイルの権限も適切に設定するために、unicorn.sockがあるディレクトリで```sudo chmod 600 unicorn.sock```を実行する。
+13.  UnicornとNginxを停止して、起動させる。
+14.  ALBのDNS名をブラウザに入力してアクセスする。
+15.  Blocked hostというエラーが発生するので、ブラウザのエラー文に表示されている```config.hosts << "ec2-34-239-115-7.compute-1.amazonaws.com"```をコピーしてconfig→environments→development.rbファイルの末尾に書き込む
+16.  ファイルやディレクトリの所有者と権限を確認するために、unicorn.sockがあるディレクトリで```ls -l```を実行する。
+17.  srwxrwxr-x 1 nginx nginx 0 Sep 19 12:41 unicorn.sockが表示されてUnicornをec2-userとして実行している場合、所有者と権限の変更をする必要があるのでunicorn.sockがあるディレクトリで```sudo chown ec2-user:ec2-user unicorn.sock```を実行する。
+18.  ファイルの権限も適切に設定するために、unicorn.sockがあるディレクトリで```sudo chmod 600 unicorn.sock```を実行する。
+19. UnicornとNginxを停止して、起動させる。
 
 # ALBを追加したアプリにS3を追加して、RDSではなくS3をデータ保存として変更する手順
 1. マネジメントコンソールのS3の画面から「バケットを作成」をクリックする。
@@ -154,5 +156,32 @@ us-east-1をS3バケットが配置されているリージョンに変更
 
 your_bucket_name_hereをS3バケット名に変更
 
+14. 依存関係のインストール　```bundle install --with development```
+15. マイグレーション　```RAILS_ENV=development bundle exec rails db:migrate```
+16. S3のCORS設定で以下のコードを追加
+```
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "PUT",
+            "POST",
+            "DELETE",
+            "HEAD"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": [],
+        "MaxAgeSeconds": 3000
+    }
+]
+```
+17. ALBのDNS名をブラウザに入力してアクセスする。
+18. development.logの末尾に```[ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked host: etl.colorblockplaaygame.com```といったエラーがあり、このエラーはホストをブロックしているというエラーなのでconfig/environments/development.rbに```config.hosts << "etl.colorblockplaaygame.com"```といったものを追加してあげる。
+19. UnicornとNginxを停止して、起動させる。
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
