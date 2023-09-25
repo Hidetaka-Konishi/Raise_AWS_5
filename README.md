@@ -188,6 +188,7 @@ your_bucket_name_hereをS3バケット名に変更
 # S3にオブジェクトが存在するかEC2上から確認
 1. AWS CLIの設定　```aws configure```
 2. 以下の情報を入力します
+
 AWS Access Key ID: IAMユーザーのアクセスキーID
 
 AWS Secret Access Key: IAMユーザーのシークレットアクセスキー
