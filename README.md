@@ -180,8 +180,9 @@ your_bucket_name_hereをS3バケット名に変更
     }
 ]
 ```
-17. ALBのDNS名をブラウザに入力してアクセスする。
-18. development.logの末尾に```[ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked host: etl.colorblockplaaygame.com```といったエラーがあり、このエラーはホストをブロックしているというエラーなのでconfig/environments/development.rbに```config.hosts << "etl.colorblockplaaygame.com"```といったものを追加してあげる。
-19. UnicornとNginxを停止して、起動させる。
+17.UnicornとNginxを停止して、起動させる。
+18. ALBのDNS名をブラウザに入力してアクセスする。
+19. development.logの末尾に```[ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked host: etl.colorblockplaaygame.com```といったエラーがあり、このエラーはホストをブロックしているというエラーなのでconfig/environments/development.rbに```config.hosts << "etl.colorblockplaaygame.com"```といったものを追加してあげる。
+20. UnicornとNginxを停止して、起動させる。
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
