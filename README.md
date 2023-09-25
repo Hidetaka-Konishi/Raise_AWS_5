@@ -184,5 +184,18 @@ your_bucket_name_hereをS3バケット名に変更
 18. ALBのDNS名をブラウザに入力してアクセスする。
 19. development.logの末尾に```[ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked host: etl.colorblockplaaygame.com```といったエラーがあり、このエラーはホストをブロックしているというエラーなのでconfig/environments/development.rbに```config.hosts << "etl.colorblockplaaygame.com"```といったものを追加してあげる。
 20. UnicornとNginxを停止して、起動させる。
+
+# S3にオブジェクトが存在するかEC2上から確認
+1. AWS CLIの設定　```aws configure```
+2. 以下の情報を入力します
+AWS Access Key ID: IAMユーザーのアクセスキーID
+
+AWS Secret Access Key: IAMユーザーのシークレットアクセスキー
+
+Default region name: S3バケットのリージョン名（例：ap-northeast-1）
+
+Default output format: json
+
+3. S3バケット内のオブジェクトの確認　aws s3 ls s3://S3バケット名/
 # RDSのセキュリティグループを変更
 AWSのマネジメントコンソールからセキュリティグループを変更したいRDSの詳細情報が書かれているページに行き、右上の「変更」をクリックしてそこに書かれているセキュリティグループを変更する。
