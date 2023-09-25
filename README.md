@@ -158,7 +158,7 @@ your_bucket_name_hereをS3バケット名に変更
 
 14. 依存関係のインストール　```bundle install --with development```
 15. マイグレーション　```RAILS_ENV=development bundle exec rails db:migrate```
-16. S3のCORS設定で以下のコードを追加
+16. 作成したS3バケットの詳細ページに行き、「アクセス許可」をクリックする。下にスクロールするとCORSを編集できる項目があるので以下のコードを追加する。
 ```
 [
     {
