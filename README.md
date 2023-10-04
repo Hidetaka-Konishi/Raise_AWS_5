@@ -25,6 +25,8 @@
 
 ・error.logまたはaccess.logの作成　```sudo touch /var/log/nginx/error.log```
 
+・後半の20行だけログを表示　```sudo tail -n 20 unicorn.log```
+
 ・ブラウザからEC2上のアプリにアクセスするにはEC2のパブリックIPv4 アドレスをブラウザに入力
 
 ・ブラウザからALBを経由してEC2上のアプリにアクセスするにはALBのDNS名をブラウザに入力
