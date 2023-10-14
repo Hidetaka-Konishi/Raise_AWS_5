@@ -107,7 +107,7 @@ proxy_pass http://app;
 ![スクリーンショット 2023-09-24 190921](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/31ce7241-091d-413a-8f53-08952e7aaf1a)
 
 49. Nginxの設定をテスト　```sudo nginx -t```
-50. EC2のセキュリティグループのインバウンドでHTTPを許可するルールを追加し、アウトバウンドのTCPの3306番ポートを許可するセキュリティーグループを新しく作成する(インバウンドは設定しない)。そして、RDSのセキュリティーグループはEC2でアウトバウンドのTCPの3306番ポートを許可したセキュリティーグループを設定する。
+50. EC2のセキュリティグループのインバウンドでHTTPを許可するルールを追加する。そして、RDSのセキュリティーグループのインバウンドでEC2からの通信のみを許可するルールを作成する。
 51. unicorn.sockのパーミッションの所有者をnginxユーザーに変更　```sudo chown nginx:nginx /home/ec2-user/アプリのプロジェクト名/unicorn.sock```
 52. パーミッションを変更　```chmod o+x /home/ec2-user```
 53. Unicornと Nginxを起動する。
