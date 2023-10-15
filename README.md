@@ -55,14 +55,14 @@
 16. MySQLに接続　```mysql -h [RDSのエンドポイント] -P 3306 -u admin -p```
 17. 新しいデータベースインスタンスを作成　```CREATE DATABASE [新しく作成するデータベース名];```
 18. アプリのプロジェクトディレクトリ→configに移動
-19. database.ymlを開く　```nano database.yml```
+19. database.ymlを開く　```vim database.yml```
 20. developmentとtestのdatabaseの値をさっき作成したデータベース名に変更
 21. usernameの値をRDSのユーザー名(デフォルトはadmin)に変更
 22. defaultのpasswordにRDSのパスワードを追加
 23. hostキーと値であるRDSのエンドポイントをdevelopmentとtestに追加
 24. portキーと値であるRDSのポート番号(デフォルトは3306)をdevelopmentとtestに追加
 25. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
-26. Ctrl + Oで保存、Enterキーでファイル名を決定、Ctrl + Xでnanoエディタを閉じる
+26. エディタを保存して閉じる
 27. アプリのプロジェクトディレクトリに移動
 28. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
 
@@ -78,7 +78,7 @@
 36. Nginxをインストール　```sudo amazon-linux-extras install nginx1 -y```
 37. 依存関係を解決　```bundle install```
 38. configディレクトリに移動
-39. unicorn.rbファイルを開く　```nano unicorn.rb```
+39. unicorn.rbファイルを開く　```vim unicorn.rb```
 40. worker_processesの次の行に追加　```working_directory "/home/ec2-user/アプリのプロジェクト名"```
 41. listenの最後に追加　```, :backlog => 64```
 42. listenの次の行に追加　```listen 8080, :tcp_nopush => true```
