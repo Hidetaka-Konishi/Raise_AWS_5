@@ -62,7 +62,7 @@
 23. hostキーと値であるRDSのエンドポイントをdevelopmentとtestに追加
 24. portキーと値であるRDSのポート番号(デフォルトは3306)をdevelopmentとtestに追加
 25. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
-26. エディタを保存して閉じる
+26. vimエディタを保存して閉じる
 27. アプリのプロジェクトディレクトリに移動
 28. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
 
@@ -84,7 +84,7 @@
 42. listenの次の行に追加　```listen 8080, :tcp_nopush => true```
 43. pidの次の行に追加　```stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
 44. stdout_pathの次の行に追加　```stderr_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
-45. Ctrl + Oで保存、Enterキーでファイル名を決定、Ctrl + Xでnanoエディタを閉じる
+45. vimエディタを保存して閉じる
 46. nginx.confファイルを開く　```sudo nano /etc/nginx/nginx.conf```
 47. httpブロックに追加
 ```
@@ -144,7 +144,7 @@ proxy_pass http://app;
 9. 「AWS コンピューティングサービスで実行されるアプリケーション」を選択して、一番下のチェックボックスにチェックを入れて、「次へ」をクリックする。
 10. 「アクセスキーを作成」→「.csvファイルをダウンロード」をクリックする。ダウンロードされたファイルにはアクセスキーとシークレットアクセスキーの情報が書いてあるので大切に保管する必要がある。最後に「完了」をクリックする。
 11. ターミナルでconfigディレクトリに移動する
-12. storage.ymlを開く　```nano storage.yml```
+12. storage.ymlを開く　```vim storage.yml```
 13. S3の設定を変更する
 ```
 amazon:
