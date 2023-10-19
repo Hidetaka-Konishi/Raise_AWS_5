@@ -85,7 +85,7 @@
 43. pidの次の行に追加　```stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
 44. stdout_pathの次の行に追加　```stderr_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
 45. vimエディタを保存して閉じる
-46. nginx.confファイルを開く　```sudo nano /etc/nginx/nginx.conf```
+46. nginx.confファイルを開く　```sudo vim /etc/nginx/nginx.conf```
 47. httpブロックに追加
 ```
 upstream app {
