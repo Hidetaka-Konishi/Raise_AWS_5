@@ -1,7 +1,7 @@
 # UnicornとNginxを利用するときによく使うコマンド
 ・unicornを起動(development)　```bundle exec unicorn -c /home/ec2-user/raisetech-live8-sample-app/config/unicorn.rb -E development -D```
 
-・unicornを停止(マスタープロセスのPIDは以下の場合は15406)　```kill -QUIT [マスタープロセスのPID]```
+・unicornを停止(マスタープロセスのPIDは以下の場合は15406)　```kill -9 [マスタープロセスのPID]```
 
 ![スクリーンショット 2023-09-24 134519](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/6f523b6d-c8a1-4667-873d-89dc9be7da0d)
 
