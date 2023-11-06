@@ -3,7 +3,7 @@
 
 ・unicornを停止(マスタープロセスのPIDは以下の場合は15406)　```kill -9 [マスタープロセスのPID]```
 
-![スクリーンショット 2023-09-24 134519](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/6f523b6d-c8a1-4667-873d-89dc9be7da0d)
+![](./image/ps_aux_grep_unicorn.png)
 
 ・unicornが起動しているかの確認(上記のようなmasterやworkerが表示されない場合はunicornサーバーが停止している)　```ps aux | grep unicorn```
 
@@ -92,7 +92,8 @@ upstream app {
         server unix:/home/ec2-user/アプリのプロジェクト名/unicorn.sock;
     }
 ```
-![スクリーンショット 2023-09-24 190618](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/7a28e7d5-5eeb-430a-95a9-1b2b2dbd2247)
+
+![](./image/upstream_app.png)
 
 48. serverブロックに追加
 ```
@@ -104,7 +105,7 @@ proxy_pass http://app;
 }
 ```
 
-![スクリーンショット 2023-09-24 190921](https://github.com/Hidetaka-Konishi/Raise_AWS_5/assets/142459457/31ce7241-091d-413a-8f53-08952e7aaf1a)
+![](./image/server_listen_80.png)
 
 49. Nginxの設定をテスト　```sudo nginx -t```
 50. EC2のセキュリティグループのインバウンドでHTTPを許可するルールを追加する。そして、RDSのセキュリティーグループのインバウンドでEC2からの通信のみを許可するルールを作成する。
