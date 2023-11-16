@@ -56,7 +56,7 @@
 17. MySQLに接続　```mysql -h [RDSのエンドポイント] -P 3306 -u admin -p```
 18. 新しいデータベースインスタンスを作成　```CREATE DATABASE [新しく作成するデータベース名];```
 19. アプリのプロジェクトディレクトリ→configに移動
-20. database.ymlを開く　```vim database.yml```
+20. database.ymlを開く　```vi database.yml```
 21. developmentとtestのdatabaseの値をさっき作成したデータベース名に変更
 22. usernameの値をRDSのユーザー名(デフォルトはadmin)に変更
 23. defaultのpasswordにRDSのパスワードを追加
@@ -79,7 +79,7 @@
 37. Nginxをインストール　```sudo amazon-linux-extras install nginx1 -y```
 38. 依存関係を解決　```bundle install```
 39. configディレクトリに移動
-40. unicorn.rbファイルを開く　```vim unicorn.rb```
+40. unicorn.rbファイルを開く　```vi unicorn.rb```
 41. worker_processesの次の行に追加　```working_directory "/home/ec2-user/アプリのプロジェクト名"```
 42. listenの最後に追加　```, :backlog => 64```
 43. listenの次の行に追加　```listen 8080, :tcp_nopush => true```
@@ -146,7 +146,7 @@ proxy_pass http://app;
 9. 「AWS コンピューティングサービスで実行されるアプリケーション」を選択して、一番下のチェックボックスにチェックを入れて、「次へ」をクリックする。
 10. 「アクセスキーを作成」→「.csvファイルをダウンロード」をクリックする。ダウンロードされたファイルにはアクセスキーとシークレットアクセスキーの情報が書いてあるので大切に保管する必要がある。最後に「完了」をクリックする。
 11. ターミナルでconfigディレクトリに移動する
-12. storage.ymlを開く　```vim storage.yml```
+12. storage.ymlを開く　```vi storage.yml```
 13. S3の設定を変更する
 ```
 amazon:
