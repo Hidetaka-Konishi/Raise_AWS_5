@@ -52,41 +52,42 @@
 13. アプリのプロジェクトディレクトリに移動
 14. gemをインストール　```bundle install```
 15. サンプルファイルをコピー　```cp config/database.yml.sample config/database.yml```
-16. MySQLに接続　```mysql -h [RDSのエンドポイント] -P 3306 -u admin -p```
-17. 新しいデータベースインスタンスを作成　```CREATE DATABASE [新しく作成するデータベース名];```
-18. アプリのプロジェクトディレクトリ→configに移動
-19. database.ymlを開く　```vim database.yml```
-20. developmentとtestのdatabaseの値をさっき作成したデータベース名に変更
-21. usernameの値をRDSのユーザー名(デフォルトはadmin)に変更
-22. defaultのpasswordにRDSのパスワードを追加
-23. hostキーと値であるRDSのエンドポイントをdevelopmentとtestに追加
-24. portキーと値であるRDSのポート番号(デフォルトは3306)をdevelopmentとtestに追加
-25. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
-26. vimエディタを保存して閉じる
-27. アプリのプロジェクトディレクトリに移動
-28. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
+16. MySQLのインストール `curl -fsSL https://raw.githubusercontent.com/MasatoshiMizumoto/raisetech_documents/main/aws/scripts/mysql_amazon_linux_2.sh | sh`
+17. MySQLに接続　```mysql -h [RDSのエンドポイント] -P 3306 -u admin -p```
+18. 新しいデータベースインスタンスを作成　```CREATE DATABASE [新しく作成するデータベース名];```
+19. アプリのプロジェクトディレクトリ→configに移動
+20. database.ymlを開く　```vim database.yml```
+21. developmentとtestのdatabaseの値をさっき作成したデータベース名に変更
+22. usernameの値をRDSのユーザー名(デフォルトはadmin)に変更
+23. defaultのpasswordにRDSのパスワードを追加
+24. hostキーと値であるRDSのエンドポイントをdevelopmentとtestに追加
+25. portキーと値であるRDSのポート番号(デフォルトは3306)をdevelopmentとtestに追加
+26. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
+27. vimエディタを保存して閉じる
+28. アプリのプロジェクトディレクトリに移動
+29. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
 
     v0.39.5は最新を確認→https://github.com/nvm-sh/nvm
     
-29. NVM_DIRを設定　```export NVM_DIR="$HOME/.nvm"```
-30. nvmの初期化スクリプトが存在し、かつサイズが0でない場合に、そのスクリプトを実行　```[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"```
-31. Node.jsをインストール　```nvm install 17.9.1```
-32. yarnをインストール　```npm install -g yarn```
-33. プロジェクトのセットアップと初期化　```bin/setup```
-34. ImageMagickソフトウェアパッケージをインストール　```sudo yum install -y ImageMagick```
-35. アプリケーションサーバーを起動　```bin/dev```
-36. Nginxをインストール　```sudo amazon-linux-extras install nginx1 -y```
-37. 依存関係を解決　```bundle install```
-38. configディレクトリに移動
-39. unicorn.rbファイルを開く　```vim unicorn.rb```
-40. worker_processesの次の行に追加　```working_directory "/home/ec2-user/アプリのプロジェクト名"```
-41. listenの最後に追加　```, :backlog => 64```
-42. listenの次の行に追加　```listen 8080, :tcp_nopush => true```
-43. pidの次の行に追加　```stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
-44. stdout_pathの次の行に追加　```stderr_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
-45. vimエディタを保存して閉じる
-46. nginx.confファイルを開く　```sudo vim /etc/nginx/nginx.conf```
-47. httpブロックに追加
+30. NVM_DIRを設定　```export NVM_DIR="$HOME/.nvm"```
+31. nvmの初期化スクリプトが存在し、かつサイズが0でない場合に、そのスクリプトを実行　```[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"```
+32. Node.jsをインストール　```nvm install 17.9.1```
+33. yarnをインストール　```npm install -g yarn```
+34. プロジェクトのセットアップと初期化　```bin/setup```
+35. ImageMagickソフトウェアパッケージをインストール　```sudo yum install -y ImageMagick```
+36. アプリケーションサーバーを起動　```bin/dev```
+37. Nginxをインストール　```sudo amazon-linux-extras install nginx1 -y```
+38. 依存関係を解決　```bundle install```
+39. configディレクトリに移動
+40. unicorn.rbファイルを開く　```vim unicorn.rb```
+41. worker_processesの次の行に追加　```working_directory "/home/ec2-user/アプリのプロジェクト名"```
+42. listenの最後に追加　```, :backlog => 64```
+43. listenの次の行に追加　```listen 8080, :tcp_nopush => true```
+44. pidの次の行に追加　```stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
+45. stdout_pathの次の行に追加　```stderr_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"```
+46. vimエディタを保存して閉じる
+47. nginx.confファイルを開く　```sudo vim /etc/nginx/nginx.conf```
+48. httpブロックに追加
 ```
 upstream app {
         server unix:/home/ec2-user/アプリのプロジェクト名/unicorn.sock;
