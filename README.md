@@ -98,12 +98,12 @@ upstream app {
 
 48. serverブロックに追加
 ```
-location / {
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header Host $http_host;
-proxy_redirect off;
-proxy_pass http://app;
-}
+        location / {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+            proxy_pass http://app;
+         }
 ```
 
 ![](./image/server_listen_80.png)
