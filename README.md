@@ -63,7 +63,7 @@
 24. hostキーと値であるRDSのエンドポイントをdevelopmentとtestに追加
 25. portキーと値であるRDSのポート番号(デフォルトは3306)をdevelopmentとtestに追加
 26. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
-27. vimエディタを保存して閉じる
+27. viエディタを保存して閉じる
 28. アプリのプロジェクトディレクトリに移動
 29. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
 
