@@ -65,7 +65,7 @@
 26. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
 27. viエディタを保存して閉じる
 28. アプリのプロジェクトディレクトリに移動
-29. nvmをインストール　```- curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash```
+29. nvmをインストール　`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh > install_nvm.sh`を実行して後に`bash install_nvm.sh`を実行する。
 
     v0.39.5は最新を確認→https://github.com/nvm-sh/nvm
     
