@@ -90,12 +90,12 @@
 51. stdout_pathの次の行に追加　`stderr_path "/home/ec2-user/[プロジェクトディレクトリ名]/unicorn.log"`。これによってUnicornのエラーのログが出力されるファイルを固定化することができる。
 52. ファイルを保存する
 53. `sudo vi /etc/nginx/nginx.conf`
-54. `user nginx;`を`user ec2-user;`に変更
-55. 以下をhttpブロックに追加
+54. `user nginx;`を`user ec2-user;`に変更。こうすることで`unicorn.sock`の実行権限が`ec2-user`になっていてもNginxはUniconとやり取りできるようになる。
+55. 以下をhttpブロックに追加。このブロックを追加することでUnicornにリクエストを送信できるようになる。
 
 ```
 upstream app {
-        server unix:/home/ec2-user/アプリのプロジェクト名/unicorn.sock;
+        server unix:/home/ec2-user/[プロジェクトディレクトリ名]/unicorn.sock;
     }
 ```
 
@@ -110,7 +110,7 @@ upstream app {
         }
 
         location ^~ /assets/ {
-            root /home/ec2-user/[プロジェクトディレクトリ]/public;
+            root /home/ec2-user/[プロジェクトディレクトリ名]/public;
             gzip_static on;
             expires max;
             add_header Cache-Control public;
