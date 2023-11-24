@@ -38,7 +38,7 @@
 # EC2上のNginxとUnicornにアプリをデプロイしてALB経由でS3に画像をアップロード
 【手動構築の手順(IAMロール)】
 1. `sudo yum install git -y`
-2. `git clone https://github.com/yuta-ushijima/raisetech-live8-sample-app.git /home/ec2-user/raisetech-live8-sample-app`
+2. `git clone [リポジトリのURL]`
 3. `sudo yum update -y`
 4. `sudo yum install -y curl gpg gcc gcc-c++ make`
 5. `curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -`
