@@ -36,6 +36,8 @@
 ・ブラウザからALBを経由してEC2上のアプリにアクセスするにはALBのDNS名をブラウザに入力
 
 # EC2上のNginxとUnicornにアプリをデプロイしてALB経由でS3に画像をアップロード
+※インストールするパッケージのバージョンはREADMEに書かれている
+
 【手動構築の手順(IAMロール)】
 1. `sudo yum install git -y`
 2. `git clone [リポジトリのURL]`
@@ -99,6 +101,8 @@ upstream app {
     }
 ```
 
+![](./image/upstream_app.png)
+
 56. serverブロックに以下を追加
 
 ```
@@ -116,6 +120,8 @@ upstream app {
             add_header Cache-Control public;
         }
 ```
+
+![](./image/server_listen_80.png)
 
 57. ファイルを保存する
 58. `vi environments/development.rb`
