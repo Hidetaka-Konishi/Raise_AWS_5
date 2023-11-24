@@ -35,6 +35,114 @@
 
 ・ブラウザからALBを経由してEC2上のアプリにアクセスするにはALBのDNS名をブラウザに入力
 
+# EC2上のNginxとUnicornにアプリをデプロイしてALB経由でS3に画像をアップロード
+【手動構築の手順(IAMロール)】
+1. `sudo yum install git -y`
+2. `git clone https://github.com/yuta-ushijima/raisetech-live8-sample-app.git /home/ec2-user/raisetech-live8-sample-app`
+3. `sudo yum update -y`
+4. `sudo yum install -y curl gpg gcc gcc-c++ make`
+5. `curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -`
+6. `curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -`
+7. `gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB`
+8. `curl -sSL https://get.rvm.io | bash -s stable`
+9. `echo 'source ~/.rvm/scripts/rvm' >> ~/.bashrc`
+10. `source ~/.rvm/scripts/rvm && rvm list | grep 'ruby-[バージョン]'`
+11. `source ~/.rvm/scripts/rvm && rvm install ruby-[バージョン]`
+12. `source ~/.rvm/scripts/rvm && gem install bundler -v [バージョン]`
+13. `sudo yum install mysql-devel -y`
+14. `cd [プロジェクトディレクトリ]`
+15. `bundle install`
+16. `sudo yum install python3-pip -y`
+17. `sudo pip3 install PyMySQL`
+18. `sudo yum install mysql -y`
+19. `mysql -h [RDS_ENDPOINT] -u [RDS_MASTER_USERNAME] -p[RDS_MASTER_PASSWORD] -e "CREATE DATABASE IF NOT EXISTS Raise13;"`
+20. `cd config`
+21. `cp database.yml.sample database.yml`
+22. `vi database.yml`
+23. usernameの値をRDSのユーザー名(デフォルトはadmin)に変更
+24. defaultのpasswordにRDSのパスワードを追加
+25. developmentとtestのdatabaseの値をさっき作成したデータベース名に変更
+26. hostキーと値であるRDSのエンドポイントをdevelopmentとtestに追加
+27. portキーと値であるRDSのポート番号(デフォルトは3306)をdevelopmentとtestに追加
+28. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
+29. ファイルを保存する
+30. `cd ..`
+31. `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v[バージョン]/install.sh | bash`
+32. `cd`
+33. `echo 'export NVM_DIR="$HOME/.nvm"' >> /home/ec2-user/.bashrc`
+34. `cd [プロジェクトディレクトリ]`
+35. `[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"`
+36. `. ~/.nvm/nvm.sh`
+37. `nvm install [バージョン]`
+38. `cd`
+39. `export PATH="/home/ec2-user/.nvm/versions/node/v[バージョン]/bin:$PATH"`
+40. `npm install -g yarn`
+41. `sudo yum install -y ImageMagick`
+42. `cd [プロジェクトディレクトリ]`
+43. `sudo amazon-linux-extras install nginx1 -y`
+44. `rvmsudo -u ec2-user bundle install`
+45. `cd config`
+46. `vi unicorn.rb`
+47. worker_processesの次の行に追加　`working_directory "/home/ec2-user/アプリのプロジェクト名"`
+48. listenの最後に追加　`, :backlog => 64`
+49. listenの次の行に追加　`listen 8080, :tcp_nopush => true`
+50. pidの次の行に追加　`stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"`
+51. stdout_pathの次の行に追加　`stderr_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"`
+52. ファイルを保存する
+53. `sudo vi /etc/nginx/nginx.conf`
+54. `user nginx;`を`user ec2-user;`に変更
+55. 以下をhttpブロックに追加
+
+```
+upstream app {
+        server unix:/home/ec2-user/アプリのプロジェクト名/unicorn.sock;
+    }
+```
+
+56. serverブロックに以下を追加
+
+```
+        location / {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+            proxy_pass http://app;
+        }
+
+        location ^~ /assets/ {
+            root /home/ec2-user/[プロジェクトディレクトリ]/public;
+            gzip_static on;
+            expires max;
+            add_header Cache-Control public;
+        }
+```
+
+57. ファイルを保存する
+58. `vi environments/development.rb`
+59. `config.active_storage.service = :local`を`config.active_storage.service = :amazon`に書き換える
+60. `config.assets.debug = true`を以下に書き換える
+
+```
+  config.assets.debug = false
+  config.assets.compile = true
+```
+
+61. ファイルを保存して閉じる
+62. `cd ..`
+63. `RAILS_ENV=development bundle exec rake assets:precompile`
+64. `sudo su - ec2-user -c 'bin/rails db:migrate RAILS_ENV=development'`
+65. `cd`
+66. `sudo su - ec2-user -c 'cd /home/ec2-user/[プロジェクトディレクトリ] && bin/rails db:migrate RAILS_ENV=development'`
+67. `cd /home/ec2-user/raisetech-live8-sample-app/config/storage.yml`
+68. regionを対象のS3バケットがあるリージョン、bucketを対象のS3バケット名に変更する
+69. NginxとUnicornを起動するとBlocked hostが表示される
+70. `vi config/environments/development.rb`
+71. ファイルの末尾にBlocked hostで表示された`config.hosts << "ALBのDNS名"`を記載する
+72. NginxとUnicornを停止して起動する
+
+【手動構築の手順(アクセスキー)】
+`storage.yml`の`access_key_id`と`secret_access_key`をS3へのアクセスを許可したIAMユーザーのアクセスキーとシークレットアクセスキーに変更する。
+
 # EC2上のNginxとUnicornにアプリをデプロイする手順(データベースはRDSを使用)
 ※インストールするパッケージのバージョンはREADME.mdに書かれている
 1. gitパッケージをインストール　```sudo yum install git -y```
