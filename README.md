@@ -46,44 +46,44 @@
 7. `gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB`
 8. `curl -sSL https://get.rvm.io | bash -s stable`
 9. `echo 'source ~/.rvm/scripts/rvm' >> ~/.bashrc`
-10. `source ~/.rvm/scripts/rvm && rvm list | grep 'ruby-[バージョン]'`
-11. `source ~/.rvm/scripts/rvm && rvm install ruby-[バージョン]`
-12. `source ~/.rvm/scripts/rvm && gem install bundler -v [バージョン]`
+10. `source ~/.rvm/scripts/rvm && rvm list | grep 'ruby-[rubyのバージョン]'`
+11. `source ~/.rvm/scripts/rvm && rvm install ruby-[rubyのバージョン]`
+12. `source ~/.rvm/scripts/rvm && gem install bundler -v [bundlerのバージョン]`
 13. `sudo yum install mysql-devel -y`
-14. `cd [プロジェクトディレクトリ]`
+14. `cd [プロジェクトディレクトリ名]`
 15. `bundle install`
 16. `sudo yum install python3-pip -y`
 17. `sudo pip3 install PyMySQL`
 18. `sudo yum install mysql -y`
-19. `mysql -h [RDS_ENDPOINT] -u [RDS_MASTER_USERNAME] -p[RDS_MASTER_PASSWORD] -e "CREATE DATABASE IF NOT EXISTS Raise13;"`
+19. `mysql -h [RDSのエンドポイント] -u [RDSのマスターユーザー名(デフォルトはadmin)] -p[RDSのマスターパスワード] -e "CREATE DATABASE IF NOT EXISTS [任意のデータベーステーブル名];"`
 20. `cd config`
 21. `cp database.yml.sample database.yml`
 22. `vi database.yml`
-23. usernameの値をRDSのユーザー名(デフォルトはadmin)に変更
-24. defaultのpasswordにRDSのパスワードを追加
-25. developmentとtestのdatabaseの値をさっき作成したデータベース名に変更
-26. hostキーと値であるRDSのエンドポイントをdevelopmentとtestに追加
-27. portキーと値であるRDSのポート番号(デフォルトは3306)をdevelopmentとtestに追加
-28. developmentとtestのsocketをコメントアウトにすることで適用されないようにする
+23. `username`の値をRDSのマスターユーザー名(デフォルトはadmin)に変更
+24. `default`の`password`にRDSのマスターパスワードを追加
+25. `development`と`test`の`database`の値を19で作成したデータベーステーブル名に変更
+26. `host`キーと値であるRDSのエンドポイントを`development`と`test`に追加
+27. `port`キーと値であるRDSのポート番号(デフォルトは3306)を`development`と`test`に追加
+28. `development`と`test`の`socket`をコメントアウトにする。データの保存先がRDSなので`socket`をコメントアウトにしている。
 29. ファイルを保存する
 30. `cd ..`
-31. `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v[バージョン]/install.sh | bash`
+31. `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v[nvmのバージョン]/install.sh | bash`
 32. `cd`
 33. `echo 'export NVM_DIR="$HOME/.nvm"' >> /home/ec2-user/.bashrc`
-34. `cd [プロジェクトディレクトリ]`
+34. `cd [プロジェクトディレクトリ名]`
 35. `[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"`
 36. `. ~/.nvm/nvm.sh`
-37. `nvm install [バージョン]`
+37. `nvm install [Node.jsのバージョン]`
 38. `cd`
-39. `export PATH="/home/ec2-user/.nvm/versions/node/v[バージョン]/bin:$PATH"`
+39. `export PATH="/home/ec2-user/.nvm/versions/node/v[Node.jsのバージョン]/bin:$PATH"`
 40. `npm install -g yarn`
 41. `sudo yum install -y ImageMagick`
-42. `cd [プロジェクトディレクトリ]`
+42. `cd [プロジェクトディレクトリ名]`
 43. `sudo amazon-linux-extras install nginx1 -y`
 44. `rvmsudo -u ec2-user bundle install`
 45. `cd config`
 46. `vi unicorn.rb`
-47. worker_processesの次の行に追加　`working_directory "/home/ec2-user/アプリのプロジェクト名"`
+47. worker_processesの次の行に追加　`working_directory "/home/ec2-user/[プロジェクトディレクトリ]"`
 48. listenの最後に追加　`, :backlog => 64`
 49. listenの次の行に追加　`listen 8080, :tcp_nopush => true`
 50. pidの次の行に追加　`stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"`
