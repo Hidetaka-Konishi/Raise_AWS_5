@@ -83,11 +83,11 @@
 44. `rvmsudo -u ec2-user bundle install`
 45. `cd config`
 46. `vi unicorn.rb`
-47. worker_processesの次の行に追加　`working_directory "/home/ec2-user/[プロジェクトディレクトリ]"`
-48. listenの最後に追加　`, :backlog => 64`
-49. listenの次の行に追加　`listen 8080, :tcp_nopush => true`
-50. pidの次の行に追加　`stdout_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"`
-51. stdout_pathの次の行に追加　`stderr_path "/home/ec2-user/アプリのプロジェクト名/unicorn.log"`
+47. worker_processesの次の行に追加　`working_directory "/home/ec2-user/[プロジェクトディレクトリ名]"`。この設定をすることでUnicornがアプリケーションを実行するディレクトリを認識できるようになる。
+48. listenの最後に追加　`, :backlog => 64`。`:backlog => 64`とすることで64個の接続リクエストを待機させることができる。
+49. listenの次の行に追加　`listen 8080, :tcp_nopush => true`。`listen 8080`はUnicornがポート番号8080でHTTP通信を許可することを設定していて、`:tcp_nopush => true`はTCPの性能を最適化するための設定。
+50. pidの次の行に追加　`stdout_path "/home/ec2-user/[プロジェクトディレクトリ名]/unicorn.log"`。これによってUnicornのログが出力されるファイルを固定化することができる。
+51. stdout_pathの次の行に追加　`stderr_path "/home/ec2-user/[プロジェクトディレクトリ名]/unicorn.log"`。これによってUnicornのエラーのログが出力されるファイルを固定化することができる。
 52. ファイルを保存する
 53. `sudo vi /etc/nginx/nginx.conf`
 54. `user nginx;`を`user ec2-user;`に変更
