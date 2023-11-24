@@ -39,6 +39,21 @@
 ※インストールするパッケージのバージョンはREADMEに書かれている
 
 【手動構築の手順(IAMロール)】
+1. VPCは作成手順は通常通り
+2. EC2のセキュリティグループはインバウンドルールにポート番号8080のTCPの0.0.0.0/0とポート番号22のTCPのマイIPからの通信のみを許可する。
+3. RDSのセキュリティグループはインバウンドルールにタイプ`MYSQL/Aurora`のTCPのポート番号3306のソースはEC2からの通信を許可する。
+4. ALBは5からの手順で作成する。
+5. マネジメントコンソールのEC2の画面から左のサイドバーにある「ロードバランサー」→「ロードバランサーの作成」→をクリックして ALBを選択する。
+6. 「基本的な設定」の項目では、「ロードバランサー名」に名前をつける。
+7. 「ネットワークマッピング」の項目では、「VPC」にEC2があるVPCを選択、AZを二つ選択し、サブネットは⚠️のマークが表示されないサブネットを選択する。
+8. 「セキュリティグループ」の項目では、タイプHTTPのTCPのポート番号80の0.0.0.0/0を許可する。
+9. 「リスナーとルーティング」の項目では、「デフォルトアクション」の「ターゲットグループの作成」をクリックする。
+10. 「基本的な設定」の項目では、「ターゲットグループ名」に名前をつけて、EC2が設置されているVPCを選択。
+11. 一番下までスクロールして「次へ」をクリックする。
+12. 「使用可能なインスタンス」の項目で対象のEC2にチェックをつけ、「選択したインスタンスのポート」で8080を入力し、「保留中として以下を含める」をクリックする。
+13.  一番下までスクロールして「ターゲットグループの作成」をクリックする。
+14.  ALBを作成しているページに戻って「デフォルトアクション」にさっき作成したターゲットグループを選択する。
+15.  一番下までスクロールして「ロードバランサーの作成」をクリックする。
 1. `sudo yum install git -y`
 2. `git clone [リポジトリのURL]`
 3. `sudo yum update -y`
@@ -61,11 +76,11 @@
 20. `cd config`
 21. `cp database.yml.sample database.yml`
 22. `vi database.yml`
-23. `username`の値をRDSのマスターユーザー名(デフォルトはadmin)に変更
-24. `default`の`password`にRDSのマスターパスワードを追加
-25. `development`と`test`の`database`の値を19で作成したデータベーステーブル名に変更
-26. `host`キーと値であるRDSのエンドポイントを`development`と`test`に追加
-27. `port`キーと値であるRDSのポート番号(デフォルトは3306)を`development`と`test`に追加
+23. `username`の値をRDSのマスターユーザー名(デフォルトはadmin)に変更。
+24. `default`の`password`にRDSのマスターパスワードを追加。
+25. `development`と`test`の`database`の値を19で作成したデータベーステーブル名に変更。
+26. `host`キーと値であるRDSのエンドポイントを`development`と`test`に追加。
+27. `port`キーと値であるRDSのポート番号(デフォルトは3306)を`development`と`test`に追加。
 28. `development`と`test`の`socket`をコメントアウトにする。データの保存先がRDSなので`socket`をコメントアウトにしている。
 29. ファイルを保存する
 30. `cd ..`
@@ -90,7 +105,7 @@
 49. listenの次の行に追加　`listen 8080, :tcp_nopush => true`。`listen 8080`はUnicornがポート番号8080でHTTP通信を許可することを設定していて、`:tcp_nopush => true`はTCPの性能を最適化するための設定。
 50. pidの次の行に追加　`stdout_path "/home/ec2-user/[プロジェクトディレクトリ名]/unicorn.log"`。これによってUnicornのログが出力されるファイルを固定化することができる。
 51. stdout_pathの次の行に追加　`stderr_path "/home/ec2-user/[プロジェクトディレクトリ名]/unicorn.log"`。これによってUnicornのエラーのログが出力されるファイルを固定化することができる。
-52. ファイルを保存する
+52. ファイルを保存する。
 53. `sudo vi /etc/nginx/nginx.conf`
 54. `user nginx;`を`user ec2-user;`に変更。こうすることで`unicorn.sock`の実行権限が`ec2-user`になっていてもNginxはUniconとやり取りできるようになる。
 55. 以下をhttpブロックに追加。このブロックを追加することでUnicornにリクエストを送信できるようになる。
@@ -103,7 +118,7 @@ upstream app {
 
 ![](./image/upstream_app.png)
 
-56. serverブロックに以下を追加
+56. serverブロックに以下を追加。
 
 ```
         location / {
@@ -123,28 +138,28 @@ upstream app {
 
 ![](./image/server_listen_80.png)
 
-57. ファイルを保存する
+57. ファイルを保存する。
 58. `vi environments/development.rb`
-59. `config.active_storage.service = :local`を`config.active_storage.service = :amazon`に書き換える
-60. `config.assets.debug = true`を以下に書き換える
+59. `config.active_storage.service = :local`を`config.active_storage.service = :amazon`に書き換える。
+60. `config.assets.debug = true`を以下に書き換える。
 
 ```
   config.assets.debug = false
   config.assets.compile = true
 ```
 
-61. ファイルを保存する
+61. ファイルを保存する。
 62. `cd ..`
 63. `RAILS_ENV=development bundle exec rake assets:precompile`
 64. `sudo su - ec2-user -c 'bin/rails db:migrate RAILS_ENV=development'`
 65. `cd`
 66. `sudo su - ec2-user -c 'cd /home/ec2-user/[プロジェクトディレクトリ名] && bin/rails db:migrate RAILS_ENV=development'`
 67. `cd /home/ec2-user/[プロジェクトディレクトリ名]/config/storage.yml`
-68. `region`を対象のS3バケットがあるリージョン、`bucket`を対象のS3バケット名に変更する
-69. NginxとUnicornを起動するとBlocked hostが表示される
+68. `region`を対象のS3バケットがあるリージョン、`bucket`を対象のS3バケット名に変更する。
+69. NginxとUnicornを起動するとBlocked hostが表示される。
 70. `vi config/environments/development.rb`
-71. ファイルの末尾にBlocked hostで表示された`config.hosts << "ALBのDNS名"`を記載する
-72. NginxとUnicornを停止して起動する
+71. ファイルの末尾にBlocked hostで表示された`config.hosts << "ALBのDNS名"`を記載する。
+72. NginxとUnicornを停止して起動する。
 
 【手動構築の手順(アクセスキー)】
 `storage.yml`の`access_key_id`と`secret_access_key`をS3へのアクセスを許可したIAMユーザーのアクセスキーとシークレットアクセスキーに変更する。
