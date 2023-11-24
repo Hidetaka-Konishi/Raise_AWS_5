@@ -310,15 +310,12 @@ your_bucket_name_hereをS3バケット名に変更
 # S3にオブジェクトが保存されているかEC2上から確認
 1. AWS CLIの設定　```aws configure```
 2. 以下の情報を入力します
-
+```
 AWS Access Key ID: IAMユーザーのアクセスキーID
-
 AWS Secret Access Key: IAMユーザーのシークレットアクセスキー
-
 Default region name: S3バケットのリージョン名（例：ap-northeast-1）
-
 Default output format: json
-
+```
 3. S3バケット内のオブジェクトの確認　aws s3 ls s3://S3バケット名/
 
 # S3のCORSについて
