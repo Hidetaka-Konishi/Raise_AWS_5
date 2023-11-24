@@ -127,14 +127,14 @@ upstream app {
   config.assets.compile = true
 ```
 
-61. ファイルを保存して閉じる
+61. ファイルを保存する
 62. `cd ..`
 63. `RAILS_ENV=development bundle exec rake assets:precompile`
 64. `sudo su - ec2-user -c 'bin/rails db:migrate RAILS_ENV=development'`
 65. `cd`
-66. `sudo su - ec2-user -c 'cd /home/ec2-user/[プロジェクトディレクトリ] && bin/rails db:migrate RAILS_ENV=development'`
-67. `cd /home/ec2-user/raisetech-live8-sample-app/config/storage.yml`
-68. regionを対象のS3バケットがあるリージョン、bucketを対象のS3バケット名に変更する
+66. `sudo su - ec2-user -c 'cd /home/ec2-user/[プロジェクトディレクトリ名] && bin/rails db:migrate RAILS_ENV=development'`
+67. `cd /home/ec2-user/[プロジェクトディレクトリ名]/config/storage.yml`
+68. `region`を対象のS3バケットがあるリージョン、`bucket`を対象のS3バケット名に変更する
 69. NginxとUnicornを起動するとBlocked hostが表示される
 70. `vi config/environments/development.rb`
 71. ファイルの末尾にBlocked hostで表示された`config.hosts << "ALBのDNS名"`を記載する
