@@ -17,15 +17,7 @@
 
 ・Nginxの停止　```sudo systemctl stop nginx```
 
-・Nginxのエラーログやアクセスログのファイルがあるか確認　```sudo ls /var/log/nginx/```
-
-・Nginxのerror.logまたはaccess.logの中身を見る　```sudo cat /var/log/nginx/error.log```
-
-・Nginxのerror.logまたはaccess.logの削除　```sudo rm /var/log/nginx/error.log```
-
-・Nginxのerror.logまたはaccess.logの作成　```sudo touch /var/log/nginx/error.log```
-
-・後半の20行だけログを表示　```sudo tail -n 20 [ファイル名]```
+・リアルタイムにログを表示　```sudo tail -f [ファイル名]```
 
 ・gemファイルの変更を反映　```bundle install```
 
